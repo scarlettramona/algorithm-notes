@@ -1,0 +1,13 @@
+Two Pointer approach for finding the middle of a list:
+
+turtle: default iterator, moves only one step at a time
+hare: moves two steps at once
+
+turtle is in the middle when hare reaches the end
+
+
+Given a list, is it cycled or not?
+
+With the two pointer approach, 
+- if tortoise and hare start at the same point
+- then after some iterations they will face each other exactly at the point where they started
