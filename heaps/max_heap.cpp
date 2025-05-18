@@ -2,14 +2,7 @@
 #include <vector>
 #include <stdexcept>
 
-
-// array index relationships
-// parent: (i - 1) / 2
-// left child: 2 * i + 1
-// right child: 2 * i + 2
-
-
-class MinHeap {
+class MaxHeap {
 private:
     std::vector<int> heap;
 
@@ -30,7 +23,7 @@ private:
 
     // moves the element at index i up to restore the heap property
     void bubbleUp(int i) {
-        while (i > 0 && heap[i] < heap[parent(i)]) {
+        while (i > 0 && heap[i] > heap[parent(i)]) {
             std::swap(heap[i], heap[parent(i)]);
             i = parent(i);
         }
@@ -38,23 +31,23 @@ private:
 
     // moves the element at index i down to restore the heap property
     void bubbleDown(int i) {
-        int smallest = i;
+        int largest = i;
         int left = leftChild(i);
         int right = rightChild(i);
 
-        // find the smallest among the current node and its children
-        if (left < heap.size() && heap[left] < heap[smallest]) {
-            smallest = left;
+        // find the largest among the current node and its children
+        if (left < heap.size() && heap[left] > heap[largest]) {
+            largest = left;
         }
 
-        if (right < heap.size() && heap[right] < heap[smallest]) {
-            smallest = right;
+        if (right < heap.size() && heap[right] > heap[largest]) {
+            largest = right;
         }
 
-        // swap and continue bubbling down if the current node is not the smallest
-        if (smallest != i) {
-            std::swap(heap[i], heap[smallest]);
-            bubbleDown(smallest);
+        // swap and continue bubbling down if the current node is not the largest
+        if (largest != i) {
+            std::swap(heap[i], heap[largest]);
+            bubbleDown(largest);
         }
     }
 
@@ -65,8 +58,8 @@ public:
         bubbleUp(heap.size() - 1);
     }
 
-    // removes and returns the minimum element
-    int extractMin() {
+    // removes and returns the maximum element
+    int extractMax() {
         if (heap.empty()) {
             throw std::out_of_range("Heap is empty");
         }
@@ -78,8 +71,8 @@ public:
         return rootValue;
     }
 
-    // returns the minimum element without removing it
-    int getMin() {
+    // returns the maximum element without removing it
+    int getMax() {
         if (heap.empty()) {
             throw std::out_of_range("Heap is empty");
         }
@@ -101,7 +94,7 @@ public:
 };
 
 int main() {
-    MinHeap heap;
+    MaxHeap heap;
     heap.insert(10);
     heap.insert(15);
     heap.insert(20);
@@ -111,11 +104,10 @@ int main() {
     std::cout << "Heap contents: ";
     heap.printHeap();
 
-    std::cout << "Extracted min: " << heap.extractMin() << "\n";
-    std::cout << "Heap after extraction: ";
+    std::cout << "Extracted max: " << heap.extractMax() << "\n";
     heap.printHeap();
 
-    std::cout << "Current min: " << heap.getMin() << "\n";
+    std::cout << "Current max: " << heap.getMax() << "\n";
 
     return 0;
 }
